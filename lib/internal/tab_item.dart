@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 const double ICON_OFF = -3;
-const double ICON_ON = 0;
-const double TEXT_OFF = 3;
+const double ICON_ON = -.5;
+const double TEXT_OFF = 1;
 const double TEXT_ON = 1;
 const double ALPHA_OFF = 0;
 const double ALPHA_ON = 1;
 const int ANIM_DURATION = 300;
+const double TEXT_FONT_SIZE=12;
+const double ICON_SIZE=28;
 
 class TabItem extends StatelessWidget {
   TabItem(
@@ -49,7 +51,8 @@ class TabItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
-                        fontWeight: FontWeight.w600, color: textColor),
+                      fontSize: TEXT_FONT_SIZE,
+                        fontWeight: FontWeight.w600, color: selected? textColor:textColor.withOpacity(0.4)),
                   ),
                 )),
           ),
@@ -70,6 +73,7 @@ class TabItem extends StatelessWidget {
                   alignment: Alignment(0, 0),
                   icon: Icon(
                     iconData,
+                    size: ICON_SIZE,
                     color: iconColor,
                   ),
                   onPressed: () {

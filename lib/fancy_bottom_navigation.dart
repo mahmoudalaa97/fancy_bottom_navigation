@@ -1,16 +1,16 @@
 library fancy_bottom_navigation;
 
 import 'package:fancy_bottom_navigation/internal/tab_item.dart';
-import 'package:fancy_bottom_navigation/paint/half_clipper.dart';
 import 'package:fancy_bottom_navigation/paint/half_painter.dart';
 import 'package:flutter/material.dart';
 
-const double CIRCLE_SIZE = 60;
+const double RECTANGLE_SIZE = 60;
 const double ARC_HEIGHT = 70;
 const double ARC_WIDTH = 90;
-const double CIRCLE_OUTLINE = 10;
-const double SHADOW_ALLOWANCE = 20;
-const double BAR_HEIGHT = 60;
+// const double CIRCLE_OUTLINE = 10;
+const double SHADOW_ALLOWANCE = 60;
+const double BAR_HEIGHT = 70;
+const double ICON_SIZE=28;
 
 class FancyBottomNavigation extends StatefulWidget {
   FancyBottomNavigation(
@@ -25,7 +25,7 @@ class FancyBottomNavigation extends StatefulWidget {
       this.barBackgroundColor})
       : assert(onTabChangedListener != null),
         assert(tabs != null),
-        assert(tabs.length > 1 && tabs.length < 5);
+        assert(tabs.length > 1 && tabs.length < 6);
 
   final Function(int position) onTabChangedListener;
   final Color? circleColor;
@@ -49,7 +49,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
 
   int currentSelected = 0;
   double _circleAlignX = 0;
-  double _circleIconAlpha = 1;
+  double _IconAlpha = 1;
 
   late Color circleColor;
   late Color activeIconColor;
@@ -107,117 +107,100 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      overflow: Overflow.visible,
-      alignment: Alignment.bottomCenter,
-      children: <Widget>[
-        Container(
-          height: BAR_HEIGHT,
-          decoration: BoxDecoration(color: barBackgroundColor, boxShadow: [
-            BoxShadow(
-                color: Colors.black12, offset: Offset(0, -1), blurRadius: 8)
-          ]),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: widget.tabs
-                .map((t) => TabItem(
-                    uniqueKey: t.key,
-                    selected: t.key == widget.tabs[currentSelected].key,
-                    iconData: t.iconData,
-                    title: t.title,
-                    iconColor: inactiveIconColor,
-                    textColor: textColor,
-                    callbackFunction: (uniqueKey) {
-                      int selected = widget.tabs
-                          .indexWhere((tabData) => tabData.key == uniqueKey);
-                      widget.onTabChangedListener(selected);
-                      _setSelected(uniqueKey);
-                      _initAnimationAndStart(_circleAlignX, 1);
-                    }))
-                .toList(),
+    return Container(
+      margin:const EdgeInsets.only(right: 10,left: 10,bottom: 10),
+      child: Stack(
+        overflow: Overflow.visible,
+        alignment: Alignment.bottomCenter,
+        children: <Widget>[
+          Container(
+            height: BAR_HEIGHT,
+            decoration: BoxDecoration(color: barBackgroundColor, boxShadow: [
+              BoxShadow(
+                  color: Colors.black12, offset: Offset(0, -1), blurRadius: 8)
+            ]),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: widget.tabs
+                  .map((t) => TabItem(
+                      uniqueKey: t.key,
+                      selected: t.key == widget.tabs[currentSelected].key,
+                      iconData: t.iconData,
+                      title: t.title,
+                      iconColor: inactiveIconColor,
+                      textColor: textColor,
+                      callbackFunction: (uniqueKey) {
+                        int selected = widget.tabs
+                            .indexWhere((tabData) => tabData.key == uniqueKey);
+                        widget.onTabChangedListener(selected);
+                        _setSelected(uniqueKey);
+                        _initAnimationAndStart(_circleAlignX, 1);
+                      }))
+                  .toList(),
+            ),
           ),
-        ),
-        Positioned.fill(
-          top: -(CIRCLE_SIZE + CIRCLE_OUTLINE + SHADOW_ALLOWANCE) / 2,
-          child: Container(
-            child: AnimatedAlign(
-              duration: Duration(milliseconds: ANIM_DURATION),
-              curve: Curves.easeOut,
-              alignment: Alignment(_circleAlignX, 1),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: FractionallySizedBox(
-                  widthFactor: 1 / widget.tabs.length,
-                  child: GestureDetector(
-                    onTap: widget.tabs[currentSelected].onclick as void
-                        Function()?,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                          height:
-                              CIRCLE_SIZE + CIRCLE_OUTLINE + SHADOW_ALLOWANCE,
-                          width:
-                              CIRCLE_SIZE + CIRCLE_OUTLINE + SHADOW_ALLOWANCE,
-                          child: ClipRect(
-                              clipper: HalfClipper(),
-                              child: Container(
-                                child: Center(
-                                  child: Container(
-                                      width: CIRCLE_SIZE + CIRCLE_OUTLINE,
-                                      height: CIRCLE_SIZE + CIRCLE_OUTLINE,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          shape: BoxShape.circle,
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black12,
-                                                blurRadius: 8)
-                                          ])),
-                                ),
+          Positioned.fill(
+            top: -(SHADOW_ALLOWANCE) / 2,
+            child: Container(
+              child: AnimatedAlign(
+                duration: Duration(milliseconds: ANIM_DURATION),
+                curve: Curves.easeOut,
+                alignment: Alignment(_circleAlignX, 1),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: FractionallySizedBox(
+                    widthFactor: 1 / widget.tabs.length,
+                    child: GestureDetector(
+                      onTap: widget.tabs[currentSelected].onclick as void
+                          Function()?,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                              height: ARC_HEIGHT,
+                              width: ARC_WIDTH,
+                              child: CustomPaint(
+                                painter: HalfPainter(barBackgroundColor),
                               )),
-                        ),
-                        SizedBox(
-                            height: ARC_HEIGHT,
-                            width: ARC_WIDTH,
-                            child: CustomPaint(
-                              painter: HalfPainter(barBackgroundColor),
-                            )),
-                        SizedBox(
-                          height: CIRCLE_SIZE,
-                          width: CIRCLE_SIZE,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: circleColor),
-                            child: Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: AnimatedOpacity(
-                                duration:
-                                    Duration(milliseconds: ANIM_DURATION ~/ 5),
-                                opacity: _circleIconAlpha,
-                                child: Icon(
-                                  activeIcon,
-                                  color: activeIconColor,
+                          SizedBox(
+                            height: RECTANGLE_SIZE +20,
+                            width: RECTANGLE_SIZE,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(13),
+                                  color: circleColor),
+                              margin: EdgeInsets.only(bottom: 20),
+                              child: Padding(
+                                padding: const EdgeInsets.all(0.0),
+                                child: AnimatedOpacity(
+                                  duration:
+                                      Duration(milliseconds: ANIM_DURATION ~/ 5),
+                                  opacity: _IconAlpha,
+                                  child: Icon(
+                                    activeIcon,
+                                    size: ICON_SIZE,
+                                    color: activeIconColor,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 
   _initAnimationAndStart(double from, double to) {
-    _circleIconAlpha = 0;
+    _IconAlpha = 0;
 
     Future.delayed(Duration(milliseconds: ANIM_DURATION ~/ 5), () {
       setState(() {
@@ -226,7 +209,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
     }).then((_) {
       Future.delayed(Duration(milliseconds: (ANIM_DURATION ~/ 5 * 3)), () {
         setState(() {
-          _circleIconAlpha = 1;
+          _IconAlpha = 1;
         });
       });
     });
