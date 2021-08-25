@@ -22,7 +22,7 @@ class FancyBottomNavigation extends StatefulWidget {
       this.activeIconColor,
       this.inactiveIconColor,
       this.textColor,
-      this.barBackgroundColor, this.fontSize})
+      this.barBackgroundColor, this.fontSize, this.unSelected=false})
       : assert(onTabChangedListener != null),
         assert(tabs != null),
         assert(tabs.length > 1 && tabs.length < 6);
@@ -36,7 +36,7 @@ class FancyBottomNavigation extends StatefulWidget {
   final List<TabData> tabs;
   final int initialSelection;
   final double? fontSize;
-
+  final bool unSelected;
   final Key? key;
 
   @override
@@ -111,7 +111,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
     return Container(
       margin:const EdgeInsets.only(right: 10,left: 10,bottom: 10),
       child: Stack(
-        overflow: Overflow.visible,
+        clipBehavior: Clip.none,
         alignment: Alignment.bottomCenter,
         children: <Widget>[
           Container(
@@ -126,7 +126,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
               children: widget.tabs
                   .map((t) => TabItem(
                       uniqueKey: t.key,
-                      selected: t.key == widget.tabs[currentSelected].key,
+                      selected: widget.unSelected ?false:t.key == widget.tabs[currentSelected].key,
                       iconData: t.iconData,
                       title: t.title,
                       iconColor: inactiveIconColor,
@@ -138,57 +138,60 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
                         widget.onTabChangedListener(selected);
                         _setSelected(uniqueKey);
                         _initAnimationAndStart(_circleAlignX, 1);
-                      }))
+                      }, ))
                   .toList(),
             ),
           ),
-          Positioned.fill(
-            top: -(SHADOW_ALLOWANCE) / 2,
-            child: Container(
-              child: AnimatedAlign(
-                duration: Duration(milliseconds: ANIM_DURATION),
-                curve: Curves.easeOut,
-                alignment: Alignment(_circleAlignX, 1),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: FractionallySizedBox(
-                    widthFactor: 1 / widget.tabs.length,
-                    child: GestureDetector(
-                      onTap: widget.tabs[currentSelected].onclick as void
-                          Function()?,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: <Widget>[
-                          SizedBox(
-                              height: ARC_HEIGHT,
-                              width: ARC_WIDTH,
-                              child: CustomPaint(
-                                painter: HalfPainter(barBackgroundColor),
-                              )),
-                          SizedBox(
-                            height: RECTANGLE_SIZE +20,
-                            width: RECTANGLE_SIZE,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(13),
-                                  color: circleColor),
-                              margin: EdgeInsets.only(bottom: 20),
-                              child: Padding(
-                                padding: const EdgeInsets.all(0.0),
-                                child: AnimatedOpacity(
-                                  duration:
-                                      Duration(milliseconds: ANIM_DURATION ~/ 5),
-                                  opacity: _IconAlpha,
-                                  child: Icon(
-                                    activeIcon,
-                                    size: ICON_SIZE,
-                                    color: activeIconColor,
+          Visibility(
+            visible: !widget.unSelected,
+            child: Positioned.fill(
+              top: -(SHADOW_ALLOWANCE) / 2,
+              child: Container(
+                child: AnimatedAlign(
+                  duration: Duration(milliseconds: ANIM_DURATION),
+                  curve: Curves.easeOut,
+                  alignment: Alignment(_circleAlignX, 1),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: FractionallySizedBox(
+                      widthFactor: 1 / widget.tabs.length,
+                      child: GestureDetector(
+                        onTap: widget.tabs[currentSelected].onclick as void
+                            Function()?,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            SizedBox(
+                                height: ARC_HEIGHT,
+                                width: ARC_WIDTH,
+                                child: CustomPaint(
+                                  painter: HalfPainter(barBackgroundColor),
+                                )),
+                            SizedBox(
+                              height: RECTANGLE_SIZE +20,
+                              width: RECTANGLE_SIZE,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(13),
+                                    color: circleColor),
+                                margin: EdgeInsets.only(bottom: 20),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(0.0),
+                                  child: AnimatedOpacity(
+                                    duration:
+                                        Duration(milliseconds: ANIM_DURATION ~/ 5),
+                                    opacity: _IconAlpha,
+                                    child: Icon(
+                                      activeIcon,
+                                      size: ICON_SIZE,
+                                      color: activeIconColor,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

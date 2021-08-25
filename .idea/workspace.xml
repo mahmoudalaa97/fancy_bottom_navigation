@@ -29,7 +29,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/fancy_bottom_navigation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/fancy_bottom_navigation.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/internal/tab_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/internal/tab_item.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,28 +184,6 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state width="1750" height="303" key="GridCell.Tab.0.bottom" timestamp="1615896135227">
-      <screen x="0" y="23" width="1792" height="1097" />
-    </state>
-    <state width="1750" height="303" key="GridCell.Tab.0.bottom/0.23.1792.1097@0.23.1792.1097" timestamp="1615896135227" />
-    <state width="1750" height="303" key="GridCell.Tab.0.center" timestamp="1615896135226">
-      <screen x="0" y="23" width="1792" height="1097" />
-    </state>
-    <state width="1750" height="303" key="GridCell.Tab.0.center/0.23.1792.1097@0.23.1792.1097" timestamp="1615896135226" />
-    <state width="1750" height="303" key="GridCell.Tab.0.left" timestamp="1615896135226">
-      <screen x="0" y="23" width="1792" height="1097" />
-    </state>
-    <state width="1750" height="303" key="GridCell.Tab.0.left/0.23.1792.1097@0.23.1792.1097" timestamp="1615896135226" />
-    <state width="1750" height="303" key="GridCell.Tab.0.right" timestamp="1615896135227">
-      <screen x="0" y="23" width="1792" height="1097" />
-    </state>
-    <state width="1750" height="303" key="GridCell.Tab.0.right/0.23.1792.1097@0.23.1792.1097" timestamp="1615896135227" />
-    <state x="397" y="210" key="SettingsEditor" timestamp="1615895083304">
-      <screen x="0" y="23" width="1792" height="1097" />
-    </state>
-    <state x="397" y="210" key="SettingsEditor/0.23.1792.1097@0.23.1792.1097" timestamp="1615895083304" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
