@@ -7,21 +7,24 @@ const double TEXT_ON = 1;
 const double ALPHA_OFF = 0;
 const double ALPHA_ON = 1;
 const int ANIM_DURATION = 300;
-const double TEXT_FONT_SIZE=12;
-const double ICON_SIZE=28;
+const double TEXT_FONT_SIZE = 12;
+const double ICON_SIZE = 28;
 
 class TabItem extends StatelessWidget {
-  TabItem(
-      {required this.uniqueKey,
-      required this.selected,
-      required this.iconData,
-      required this.title,
-      required this.callbackFunction,
-      required this.textColor,
-      required this.iconColor});
+  TabItem({
+    required this.uniqueKey,
+    required this.selected,
+    required this.iconData,
+    required this.title,
+    required this.callbackFunction,
+    required this.textColor,
+    required this.iconColor,
+    this.fontSize = TEXT_FONT_SIZE,
+  });
 
   final UniqueKey uniqueKey;
   final String title;
+  final double fontSize;
   final IconData iconData;
   final bool selected;
   final Function(UniqueKey uniqueKey) callbackFunction;
@@ -51,8 +54,10 @@ class TabItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
-                      fontSize: TEXT_FONT_SIZE,
-                        fontWeight: FontWeight.w600, color: selected? textColor:textColor.withOpacity(0.4)),
+                        fontSize: fontSize,
+                        fontWeight: FontWeight.w600,
+                        color:
+                            selected ? textColor : textColor.withOpacity(0.4)),
                   ),
                 )),
           ),
