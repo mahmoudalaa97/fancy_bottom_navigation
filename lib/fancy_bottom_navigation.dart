@@ -57,6 +57,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
   late Color inactiveIconColor;
   late Color barBackgroundColor;
   late Color textColor;
+  late bool unSelected;
 
   @override
   void didChangeDependencies() {
@@ -86,6 +87,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
         ((Theme.of(context).brightness == Brightness.dark)
             ? Colors.white
             : Theme.of(context).primaryColor);
+    unSelected=widget.unSelected;
   }
 
   @override
@@ -126,13 +128,16 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
               children: widget.tabs
                   .map((t) => TabItem(
                       uniqueKey: t.key,
-                      selected: widget.unSelected ?false:t.key == widget.tabs[currentSelected].key,
+                      selected: unSelected ?false:t.key == widget.tabs[currentSelected].key,
                       iconData: t.iconData,
                       title: t.title,
                       iconColor: inactiveIconColor,
                       textColor: textColor,
                       fontSize: widget.fontSize!,
                       callbackFunction: (uniqueKey) {
+                        setState(() {
+                          unSelected=false;
+                        });
                         int selected = widget.tabs
                             .indexWhere((tabData) => tabData.key == uniqueKey);
                         widget.onTabChangedListener(selected);
@@ -143,7 +148,7 @@ class FancyBottomNavigationState extends State<FancyBottomNavigation>
             ),
           ),
           Visibility(
-            visible: !widget.unSelected,
+            visible: !unSelected,
             child: Positioned.fill(
               top: -(SHADOW_ALLOWANCE) / 2,
               child: Container(
